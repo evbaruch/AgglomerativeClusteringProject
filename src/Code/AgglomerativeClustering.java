@@ -66,21 +66,41 @@ public class AgglomerativeClustering <T extends Clusterable<T>> implements Clust
 		// Create a variable to store the minimum distance found
 		double minDistance = Double.MAX_VALUE;
 
-		// Iterate over each element in cluster1
-		for (T elem1 : cluster1) {
-			// Iterate over each element in cluster2
-			for (T elem2 : cluster2) {
-				// Calculate the distance between elem1 and elem2
-				double distance = elem1.distance(elem2);
+//		// Iterate over each element in cluster1
+//		for (T elem1 : cluster1) {
+//			// Iterate over each element in cluster2
+//			for (T elem2 : cluster2) {
+//				// Calculate the distance between elem1 and elem2
+//				double distance = elem1.distance(elem2);
+//
+//				// Update the minimum distance if the current distance is smaller
+//				if (distance < minDistance) {
+//					minDistance = distance;
+//				}
+//			}
+//		}
 
-				// Update the minimum distance if the current distance is smaller
-				if (distance < minDistance) {
-					minDistance = distance;
-				}
-			}
-		}
+		minDistance =  cluster1.stream()
+				.flatMap(elem1 -> cluster2.stream()
+						.map(elem2 -> elem1.distance(elem2))
+				)
+				.min(Double::compare)
+				.orElse(Double.MAX_VALUE);
 
 		// Return the smallest distance found
 		return minDistance;
+	}
+
+	// Helper class to store cluster pairs with their distance
+	private static class ClusterPair<T> {
+		Set<T> cluster1;
+		Set<T> cluster2;
+		double distance;
+
+		ClusterPair(Set<T> cluster1, Set<T> cluster2, double distance) {
+			this.cluster1 = cluster1;
+			this.cluster2 = cluster2;
+			this.distance = distance;
+		}
 	}
 }
