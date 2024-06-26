@@ -19,7 +19,7 @@ public class AgglomerativeClusteringTest {
 		scanner.nextLine();
 
 		if (className.equals("TwoDPoint")) {
-			Clustering<TwoDPoint> twoDPointClustering = new AgglomerativeClustering(threshold);
+			Clustering<TwoDPoint> twoDPointClustering = new AgglomerativeClustering<>(threshold);
 			Set<TwoDPoint> points = TwoDPoint.readClusterableSet(POINTS_PATH);
 			Set<Set<TwoDPoint>> pointsClusterSet = twoDPointClustering.clusterSet(points);
 			System.out.println("The number of 2d point clusters is: " + pointsClusterSet.size());
@@ -28,7 +28,7 @@ public class AgglomerativeClusteringTest {
 		}
 
 		if (className.equals("BitArray")) {
-			AgglomerativeClustering<BitArray> bitArrayClustering = new AgglomerativeClustering(threshold);
+			AgglomerativeClustering<BitArray> bitArrayClustering = new AgglomerativeClustering<>(threshold);
 			Set<BitArray> bitArrays = BitArray.readClusterableSet(BITARRAYS_PATH);
 			Set<Set<BitArray>> bitArrayClusterSet = bitArrayClustering.clusterSet(bitArrays);
 			System.out.println("The number of bitArray clusters is: " + bitArrayClusterSet.size());
